@@ -1,40 +1,21 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
 	"os/signal"
-	"runtime"
-	"strings"
 	"time"
 )
 
 func main() {
-	var sshBinaryPath string
-	if runtime.GOOS == "windows" {
-		sshBinaryPath = `C:\Program Files\Git\usr\bin\ssh.exe`
-	} else {
-		sshBinaryPath = "/usr/bin/ssh"
-	}
-	if len(os.Args) > 1 && !strings.Contains(os.Args[1], "@") {
-		fmt.Print("Username: ")
-		scanner := bufio.NewScanner(os.Stdin)
-		if scanner.Scan() {
-			username := strings.TrimSpace(scanner.Text())
-			if len(username) == 0 {
-				os.Exit(1)
-			}
-			os.Args[1] = username + "@" + os.Args[1]
-		} else {
-			fmt.Println()
-			os.Exit(1)
-		}
-	}
-	signalChannel := make(chan os.Signal)
+	signalChannel := make(chan os.Signal, 1)
 	for {
-		cmd := exec.Command(sshBinaryPath, os.Args[1:]...)
+		// err := initSshAgent()
+		// if err != nil {
+		// 	panic(err)
+		// }
+		cmd := exec.Command("ssh", os.Args[1:]...)
 		cmd.Stdout = os.Stdout
 		cmd.Stdin = os.Stdin
 		cmd.Stderr = os.Stderr
