@@ -9,13 +9,18 @@ import (
 )
 
 func main() {
+	sshBinPath := os.Getenv("SSH_BIN_PATH")
+	if sshBinPath == "" {
+		fmt.Println("Environment variable SSH_BIN_PATH is not set")
+		os.Exit(1)
+	}
 	signalChannel := make(chan os.Signal, 1)
 	for {
 		// err := initSshAgent()
 		// if err != nil {
 		// 	panic(err)
 		// }
-		cmd := exec.Command("ssh", os.Args[1:]...)
+		cmd := exec.Command(sshBinPath, os.Args[1:]...)
 		cmd.Stdout = os.Stdout
 		cmd.Stdin = os.Stdin
 		cmd.Stderr = os.Stderr

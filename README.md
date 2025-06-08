@@ -25,3 +25,7 @@ Reconnecting... (exit status 255)
 Enter passphrase for key '~/.ssh/id_rsa':
 root:~ ❯
 ```
+
+## Configuration - Environment Variables
+
+- `SSH_BIN_PATH`
